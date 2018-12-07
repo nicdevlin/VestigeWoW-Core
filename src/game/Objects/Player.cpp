@@ -4622,13 +4622,18 @@ void Player::ResurrectPlayer(float restore_percent, bool applySickness)
     SetWaterWalk(false);
     SetMovement(MOVE_UNROOT);
 
+	// Modified for insta rez - VestigeWoW
     // set health/powers (0- will be set in caller)
     if (restore_percent > 0.0f)
     {
-        SetHealth(uint32(GetMaxHealth()*restore_percent));
-        SetPower(POWER_MANA, uint32(GetMaxPower(POWER_MANA)*restore_percent));
+       // SetHealth(uint32(GetMaxHealth()*restore_percent));
+		SetHealth(uint32(GetMaxHealth()*100));
+       // SetPower(POWER_MANA, uint32(GetMaxPower(POWER_MANA)*restore_percent));
+		SetPower(POWER_MANA, uint32(GetMaxPower(POWER_MANA)*100));
         SetPower(POWER_RAGE, 0);
-        SetPower(POWER_ENERGY, uint32(GetMaxPower(POWER_ENERGY)*restore_percent));
+       // SetPower(POWER_ENERGY, uint32(GetMaxPower(POWER_ENERGY)*restore_percent));
+		SetPower(POWER_ENERGY, uint32(GetMaxPower(POWER_ENERGY)*100));
+
     }
 
     // trigger update zone for alive state zone updates
@@ -4643,7 +4648,9 @@ void Player::ResurrectPlayer(float restore_percent, bool applySickness)
     // update visibility of player for nearby cameras
     UpdateObjectVisibility();
 
-    if (!applySickness)
+
+	//Enable below if statement to renable rez sickness - VestigeWoW
+    //if (!applySickness)
         return;
 
     //Characters from level 1-10 are not affected by resurrection sickness.
@@ -4855,7 +4862,10 @@ void Player::DurabilityPointsLoss(Item* item, int32 points)
         if (pNewDurability == 0 && pOldDurability > 0 && item->IsEquipped())
             _ApplyItemMods(item, item->GetSlot(), false);
 
-        item->SetUInt32Value(ITEM_FIELD_DURABILITY, pNewDurability);
+		// Remove durability loss on death - VestigeWoW
+		// item->SetUInt32Value(ITEM_FIELD_DURABILITY, pNewDurability);
+		item->SetUInt32Value(ITEM_FIELD_DURABILITY, pNewDurability);
+
 
         // modify item stats _after_ restore durability to pass _ApplyItemMods internal check
         if (pNewDurability > 0 && pOldDurability == 0 && item->IsEquipped())
