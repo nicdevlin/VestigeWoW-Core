@@ -4864,7 +4864,7 @@ void Player::DurabilityPointsLoss(Item* item, int32 points)
 
 		// Remove durability loss on death - VestigeWoW
 		// item->SetUInt32Value(ITEM_FIELD_DURABILITY, pNewDurability);
-		item->SetUInt32Value(ITEM_FIELD_DURABILITY, pNewDurability);
+		item->SetUInt32Value(ITEM_FIELD_DURABILITY, pMaxDurability);
 
 
         // modify item stats _after_ restore durability to pass _ApplyItemMods internal check
